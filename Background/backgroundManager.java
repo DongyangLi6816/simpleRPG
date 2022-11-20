@@ -98,7 +98,12 @@ public class backgroundManager {
             int screen_x = world_x - gp.player.map_x + gp.player.screen_x;
             int screen_y = world_y - gp.player.map_y + gp.player.screen_y;
 
-            g2.drawImage(backgrounds[num_map].image, screen_x, screen_y, gp.tile_size, gp.tile_size, null);
+            if(world_x + gp.tile_size > gp.player.map_x - gp.player.screen_x &&
+                    world_x - gp.tile_size < gp.player.map_x + gp.player.screen_x &&
+                    world_y + gp.tile_size > gp.player.map_y - gp.player.screen_y &&
+                    world_y - gp.tile_size < gp.player.map_y + gp.player.screen_y){
+                g2.drawImage(backgrounds[num_map].image, screen_x, screen_y, gp.tile_size, gp.tile_size, null);
+            }
             col++;
 
             if(col == gp.world_max_col){
