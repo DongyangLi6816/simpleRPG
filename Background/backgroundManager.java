@@ -19,10 +19,10 @@ public class backgroundManager {
     public backgroundManager(GamePanel gp) {
         this.gp = gp;
         backgrounds = new background[10];
-        imported_map = new int[gp.max_screenCol][gp.max_screenRow];
+        imported_map = new int[gp.world_max_col][gp.world_max_row];
 
         getBackgroundImage();
-        path_map = "res/map/map001.txt";
+        path_map = "res/map/world01.txt";
         loadMap(path_map);
     }
 
@@ -37,6 +37,16 @@ public class backgroundManager {
             backgrounds[2] = new background();
             backgrounds[2].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("res/background/water.png"));
 
+            backgrounds[3] = new background();
+            backgrounds[3].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("res/background/earth.png"));
+
+            backgrounds[4] = new background();
+            backgrounds[4].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("res/background/tree.png"));
+
+            backgrounds[5] = new background();
+            backgrounds[5].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("res/background/sand.png"));
+
+
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -44,16 +54,17 @@ public class backgroundManager {
 
     public void loadMap(String path_map) {
         try {
+            System.out.println("start loading map");
             InputStream in = getClass().getClassLoader().getResourceAsStream(path_map);
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
 
             int col = 0;
             int row = 0;
 
-            while (col < gp.max_screenCol && row < gp.max_screenRow) {
+            while (col < gp.world_max_col && row < gp.world_max_row) {
                 String map_line = br.readLine(); // read a line of map
 
-                while (col < gp.max_screenCol) {
+                while (col < gp.world_max_col) {
                     String numbers_map[] = map_line.split(" "); //use regular expression to split a line
 
                     int num = Integer.parseInt(numbers_map[col]);
@@ -61,7 +72,7 @@ public class backgroundManager {
                     imported_map[col][row] = num;
                     col++;
                 }
-                if (col == gp.max_screenCol) {
+                if (col == gp.world_max_col) {
                     col = 0;
                     row++;
                 }
@@ -70,26 +81,29 @@ public class backgroundManager {
         }catch (Exception e){
 
         }
+        System.out.println("map successfully loaded");
 
     }
 
     public void draw(Graphics2D g2){
         int col = 0;
         int row = 0;
-        int x = 0;
-        int y = 0;
 
-        while(col < gp.max_screenCol && row < gp.max_screenRow){
+        while(col < gp.world_max_col && row < gp.world_max_row){
+
             int num_map = imported_map[col][row];
-            g2.drawImage(backgrounds[num_map].image, x, y, gp.tile_size, gp.tile_size, null);
-            col++;
-            x+= gp.tile_size;
 
-            if(col == gp.max_screenCol){
+            int world_x = col * gp.tile_size;
+            int world_y = row * gp.tile_size;
+            int screen_x = world_x - gp.player.map_x + gp.player.screen_x;
+            int screen_y = world_y - gp.player.map_y + gp.player.screen_y;
+
+            g2.drawImage(backgrounds[num_map].image, screen_x, screen_y, gp.tile_size, gp.tile_size, null);
+            col++;
+
+            if(col == gp.world_max_col){
                 col = 0;
-                x = 0;
                 row++;
-                y+=gp.tile_size;
             }
         }
     }

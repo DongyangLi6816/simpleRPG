@@ -14,15 +14,23 @@ public class Player extends Entity {
     GamePanel gp;
     KeyboardListener key_listener;
 
+    // player's position won't change
+    public final int screen_x;
+    public final int screen_y;
+
     public Player(GamePanel gp, KeyboardListener key_listener){
         this.gp = gp;
         this.key_listener = key_listener;
+
+        screen_x = gp.screen_width/2 - (gp.tile_size/2);
+        screen_y = gp.screen_height/2 - (gp.tile_size/2);
+
         setDefaultValues();
         getPlayerImage();
     }
     public void setDefaultValues(){
-        x = 200;
-        y = 200;
+        map_x = gp.tile_size * 23;
+        map_y = gp.tile_size * 21;
         speed = 2;
         direction = "down";
     }
@@ -46,16 +54,16 @@ public class Player extends Entity {
                 key_listener.left_pressed || key_listener.right_pressed) {
             if (key_listener.up_pressed) {
                 direction = "up";
-                y -= speed;
+                map_y -= speed;
             } else if (key_listener.down_pressed) {
                 direction = "down";
-                y += speed;
+                map_y += speed;
             } else if (key_listener.left_pressed) {
                 direction = "left";
-                x -= speed;
+                map_x -= speed;
             } else if (key_listener.right_pressed) {
                 direction = "right";
-                x += speed;
+                map_x += speed;
             }
             sprite_counter++;
             if (sprite_counter > 12) {
@@ -105,6 +113,6 @@ public class Player extends Entity {
                 }
                 break;
         }
-        g2.drawImage(image, x, y, gp.tile_size, gp.tile_size, null);
+        g2.drawImage(image, screen_x, screen_y, gp.tile_size, gp.tile_size, null);
     }
 }
