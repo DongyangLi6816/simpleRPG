@@ -1,9 +1,11 @@
 package main;
 
+import Background.backgroundManager;
 import Entity.Player;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class GamePanel extends JPanel implements Runnable{
     // Screen setting
@@ -11,24 +13,22 @@ public class GamePanel extends JPanel implements Runnable{
     final int scale = 3;
 
     public int tile_size = original_tileSize * scale; // 48x48
-    final int max_screenCol = 16;
-    final int max_screenRow = 12;
-    final int screen_width = tile_size * max_screenCol; // 768
-    final int screen_height = tile_size * max_screenRow; // 576
+    public int max_screenCol = 16;
+    public int max_screenRow = 12;
+    public int screen_width = tile_size * max_screenCol; // 768
+    public int screen_height = tile_size * max_screenRow; // 576
 
     // FPS
     int FPS = 120;
+
+    backgroundManager background = new backgroundManager(this);
 
     KeyboardListener key_listener = new KeyboardListener();
 
     Thread game_thread;
     Player player = new Player(this, key_listener);
 
-    // player's initial position
-    int player_X = 100;
-    int player_y = 100;
-    int player_speed = 2;
-    public GamePanel(){
+    public GamePanel() {
         this.setPreferredSize(new Dimension(screen_width, screen_height));
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true); // improve rendering performance
@@ -93,6 +93,8 @@ public class GamePanel extends JPanel implements Runnable{
     public void paintComponent(Graphics g){
         super.paintComponent(g);//use the parent class method
         Graphics2D g2 = (Graphics2D) g;
+
+        background.draw(g2);
         player.draw(g2);
 
         g2.dispose();
