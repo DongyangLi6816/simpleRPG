@@ -25,6 +25,12 @@ public class Player extends Entity {
         screen_x = gp.screen_width/2 - (gp.tile_size/2);
         screen_y = gp.screen_height/2 - (gp.tile_size/2);
 
+        solid_area = new Rectangle();
+        solid_area.x = 8;
+        solid_area.y = 16;
+        solid_area.width = 32;
+        solid_area.height = 32;
+
         setDefaultValues();
         getPlayerImage();
     }
@@ -54,16 +60,33 @@ public class Player extends Entity {
                 key_listener.left_pressed || key_listener.right_pressed) {
             if (key_listener.up_pressed) {
                 direction = "up";
-                map_y -= speed;
             } else if (key_listener.down_pressed) {
                 direction = "down";
-                map_y += speed;
             } else if (key_listener.left_pressed) {
                 direction = "left";
-                map_x -= speed;
             } else if (key_listener.right_pressed) {
                 direction = "right";
-                map_x += speed;
+            }
+            collision_on = false;
+            gp.collision_checker.checkCollision(this);
+
+            // if collision, player cannot move
+            // else, can move
+            if(!collision_on) {
+                switch (direction) {
+                    case "up":
+                        map_y -= speed;
+                        break;
+                    case "down":
+                        map_y += speed;
+                        break;
+                    case "left":
+                        map_x -= speed;
+                        break;
+                    case "right":
+                        map_x += speed;
+                        break;
+                }
             }
             sprite_counter++;
             if (sprite_counter > 12) {

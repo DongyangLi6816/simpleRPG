@@ -11,8 +11,8 @@ import java.io.InputStreamReader;
 
 public class backgroundManager {
     GamePanel gp;
-    background[] backgrounds;
-    int imported_map[][];
+    public background[] backgrounds;
+    public int imported_map[][];
 
     String path_map;
 
@@ -33,15 +33,18 @@ public class backgroundManager {
 
             backgrounds[1] = new background();
             backgrounds[1].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("res/background/wall.png"));
+            backgrounds[1].collision = true;
 
             backgrounds[2] = new background();
             backgrounds[2].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("res/background/water.png"));
+            backgrounds[2].collision = true;
 
             backgrounds[3] = new background();
             backgrounds[3].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("res/background/earth.png"));
 
             backgrounds[4] = new background();
             backgrounds[4].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("res/background/tree.png"));
+            backgrounds[4].collision = true;
 
             backgrounds[5] = new background();
             backgrounds[5].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("res/background/sand.png"));

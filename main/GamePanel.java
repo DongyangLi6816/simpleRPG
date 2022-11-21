@@ -33,6 +33,7 @@ public class GamePanel extends JPanel implements Runnable{
     KeyboardListener key_listener = new KeyboardListener();
 
     Thread game_thread;
+    public CollisionCheck collision_checker = new CollisionCheck(this);
     public Player player = new Player(this, key_listener);
 
     public GamePanel() {
