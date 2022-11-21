@@ -1,5 +1,6 @@
 package main;
 
+import OBJ.game_boots;
 import OBJ.game_chest;
 import OBJ.game_door;
 import OBJ.game_key;
@@ -38,5 +39,9 @@ public class object_setter {
         gp.obj[6] = new game_chest();
         gp.obj[6].world_x = 10*gp.tile_size;
         gp.obj[6].world_y = 7*gp.tile_size;
+
+        gp.obj[7] = new game_boots();
+        gp.obj[7].world_x = 37*gp.tile_size;
+        gp.obj[7].world_y = 42*gp.tile_size;
     }
 }

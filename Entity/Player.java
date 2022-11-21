@@ -113,11 +113,16 @@ public class Player extends Entity {
                     key_num++;
                     gp.obj[i] = null;
                     break;
-                case"door":
+                case"Door":
                     if(key_num > 0){
                         gp.obj[i] = null;
                         key_num--;
                     }
+                    break;
+                case "Boots":
+                    speed+=1;
+                    gp.obj[i] = null;
+                    break;
             }
         }
     }
