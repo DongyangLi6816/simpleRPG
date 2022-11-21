@@ -11,6 +11,9 @@ public class game_object {
     public String name;
     public boolean collision = false;
     public int world_x, world_y;
+    public Rectangle solid_area = new Rectangle(0,0,48,48);
+    public int default_solid_area_x = 0;
+    public int default_solid_area_y = 0;
 
     public void draw(Graphics2D g2, GamePanel gp){
         int screen_x = world_x - gp.player.map_x + gp.player.screen_x;

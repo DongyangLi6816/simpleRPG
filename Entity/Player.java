@@ -1,11 +1,9 @@
 package Entity;
 
-import Entity.Entity;
 import main.GamePanel;
 import main.KeyboardListener;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -17,6 +15,7 @@ public class Player extends Entity {
     // player's position won't change
     public final int screen_x;
     public final int screen_y;
+    int key_num = 0;
 
     public Player(GamePanel gp, KeyboardListener key_listener){
         this.gp = gp;
@@ -28,6 +27,8 @@ public class Player extends Entity {
         solid_area = new Rectangle();
         solid_area.x = 8;
         solid_area.y = 16;
+        default_solid_area_x = solid_area.x;
+        default_solid_area_y = solid_area.y;
         solid_area.width = 32;
         solid_area.height = 32;
 
@@ -70,6 +71,10 @@ public class Player extends Entity {
             collision_on = false;
             gp.collision_checker.checkCollision(this);
 
+            // check object collision
+            int obj_index = gp.collision_checker.checkCollision_obj(this, true);
+            obj_pickup(obj_index);
+
             // if collision, player cannot move
             // else, can move
             if(!collision_on) {
@@ -96,6 +101,23 @@ public class Player extends Entity {
                     sprite_num = 1;
                 }
                 sprite_counter = 0;
+            }
+        }
+    }
+    public void obj_pickup(int i){
+        if(i != Integer.MAX_VALUE){
+            String obj_name = gp.obj[i].name;
+
+            switch(obj_name){
+                case "Key":
+                    key_num++;
+                    gp.obj[i] = null;
+                    break;
+                case"door":
+                    if(key_num > 0){
+                        gp.obj[i] = null;
+                        key_num--;
+                    }
             }
         }
     }

@@ -11,5 +11,6 @@ public class game_door extends game_object{
         }catch (IOException e){
             e.printStackTrace();
         }
+        collision = true;
     }
 }

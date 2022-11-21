@@ -7,7 +7,7 @@ public class main {
     public static void main(String[] args) {
         JFrame window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setTitle("勇者斗恶龙");
+        window.setTitle("random game");
 
         GamePanel game_panel = new GamePanel();
         window.add(game_panel);
