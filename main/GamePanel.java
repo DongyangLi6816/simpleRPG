@@ -2,10 +2,10 @@ package main;
 
 import Background.backgroundManager;
 import Entity.Player;
+import OBJ.game_object;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 
 public class GamePanel extends JPanel implements Runnable{
     // Screen setting
@@ -34,7 +34,9 @@ public class GamePanel extends JPanel implements Runnable{
 
     Thread game_thread;
     public CollisionCheck collision_checker = new CollisionCheck(this);
+    public object_setter object_setter = new object_setter(this);
     public Player player = new Player(this, key_listener);
+    public game_object obj[] = new game_object[10];
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screen_width, screen_height));
@@ -42,6 +44,10 @@ public class GamePanel extends JPanel implements Runnable{
         this.setDoubleBuffered(true); // improve rendering performance
         this.addKeyListener(key_listener);
         this.setFocusable(true);// this gamepanel can be focused to receive key input
+    }
+
+    public void setObj(){
+        object_setter.setObject();
     }
 
     public void startGameThread() {
@@ -102,7 +108,15 @@ public class GamePanel extends JPanel implements Runnable{
         super.paintComponent(g);//use the parent class method
         Graphics2D g2 = (Graphics2D) g;
 
+        //map
         background.draw(g2);
+        //object
+        for(int i = 0; i < obj.length; i++){
+            if(obj[i] != null){
+                obj[i].draw(g2, this);
+            }
+        }
+        //player
         player.draw(g2);
 
         g2.dispose();
